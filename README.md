@@ -19,3 +19,15 @@ OPENAI_API_KEY=xxxxxxx
 ```bash
 python src/main.py
 ```
+
+### 特殊コマンド
+
+- exit: チャットを終了します。
+- save: チャットのログを保存します。
+- read: ask.txtに保存されたプロンプトを読み込みます。(長い時とかに便利)
+- load: チャットのログを読み込みます。
+- nowData: 現在のチャットのログを表示します。
+
+## ライセンス
+
+MIT

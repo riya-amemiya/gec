@@ -119,7 +119,7 @@ def main():
                 },
             ]
             with open("log.txt", mode="w") as f:
-                print(executed_program["res"])
+                print(res)
                 output += (
                     "\n" + f"user:{ask}" + "\n" + f"ai:{executed_program['res']}" + "\n"
                 )
