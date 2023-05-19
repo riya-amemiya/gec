@@ -9,10 +9,12 @@ load_dotenv()
 def main():
     # set the default language model used to execute guidance programs
     guidance.llm = guidance.llms.OpenAI(model="gpt-3.5-turbo")
+    ask = None
+    tmpAsk = None
+    res = None
+    output = ""
 
     def parse(data):
-        global ask
-        global res
         if data.get("flag") is None:
             data["flag"] = "true"
         elif data["flag"] == "true":
@@ -47,10 +49,7 @@ def main():
             "role": "assistant",
         },
     ]
-    ask = None
-    tmpAsk = None
-    res = None
-    output = ""
+
     tmp = list(map(parse, data))
     pronpt = "".join(list(map(create_pronpt, tmp)))
     try:
