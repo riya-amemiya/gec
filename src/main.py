@@ -98,6 +98,22 @@ def main():
                 print(data)
                 print(pronpt)
                 continue
+            elif ask == "reset":
+                data = [
+                    {
+                        "role": "user",
+                    },
+                    {
+                        "role": "assistant",
+                    },
+                ]
+                tmp = list(map(parse, data))
+                pronpt = "".join(list(map(create_pronpt, tmp)))
+                ask = None
+                res = None
+                with open("log.txt", mode="w") as f:
+                    f.write("")
+                continue
             tmp = list(map(parse, data))
             pronpt = "".join(list(map(create_pronpt, tmp)))
             program = guidance(pronpt)
@@ -119,9 +135,7 @@ def main():
             ]
             with open("log.txt", mode="w") as f:
                 print(res)
-                output += (
-                    "\n" + f"user:{ask}" + "\n" + f"ai:{executed_program['res']}" + "\n"
-                )
+                output += "\n" + f"user:{ask}" + "\n" + f"ai:{res}" + "\n"
                 f.write(output)
     except KeyboardInterrupt:
         pass
