@@ -7,12 +7,24 @@ load_dotenv()
 
 
 def main():
+    def gptConfig():
+        with open("gpt.config.json") as f:
+            config = json.loads(f.read())
+
+        gptConfig = ""
+
+        for key in config:
+            gptConfig += f" {key}={config[key]}"
+
+        return f"{{{{gen 'res'{gptConfig}}}}}"
+
     # set the default language model used to execute guidance programs
     guidance.llm = guidance.llms.OpenAI(model="gpt-3.5-turbo")
     ask = None
     tmpAsk = None
     res = None
     output = ""
+    gptOption = gptConfig()
 
     def parse(data):
         if data.get("flag") is None:
@@ -20,15 +32,12 @@ def main():
         elif data["flag"] == "true":
             if data["context"] == "{{ask}}" and ask is not None:
                 data["context"] = ask
-            elif (
-                data["context"] == "{{gen 'res' n=1 temperature=0 max_tokens=2000}}"
-                and res is not None
-            ):
+            elif data["context"] == gptOption and res is not None:
                 data["context"] = res
             return data
         if data.get("context") is None:
             if data["role"] == "assistant":
-                data["context"] = "{{gen 'res' n=1 temperature=0 max_tokens=2000}}"
+                data["context"] = gptOption
             elif data["role"] == "user":
                 data["context"] = "{{ask}}"
         data["role"] = ["{{#" + data["role"] + "~}}", "{{~/" + data["role"] + "}}"]
@@ -134,6 +143,8 @@ def main():
                 },
             ]
             with open("log.txt", mode="w") as f:
+                if len(res) > 1:
+                    res = "".join(list(map(lambda x: x + "\n\n", res)))
                 print(res)
                 output += "\n" + f"user:{ask}" + "\n" + f"ai:{res}" + "\n"
                 f.write(output)
