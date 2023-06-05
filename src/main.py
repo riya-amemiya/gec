@@ -143,7 +143,7 @@ def main():
                 },
             ]
             with open("log.txt", mode="w") as f:
-                if len(res) > 1:
+                if type(res) is not str and len(res) > 1:
                     res = "".join(list(map(lambda x: x + "\n\n", res)))
                 print(res)
                 output += "\n" + f"user:{ask}" + "\n" + f"ai:{res}" + "\n"
