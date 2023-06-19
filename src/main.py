@@ -4,27 +4,34 @@ import os
 import json
 
 load_dotenv()
+model = ""
 
 
 def main():
     def gptConfig():
+        global model
         with open("gpt.config.json") as f:
             config = json.loads(f.read())
 
         gptConfig = ""
 
         for key in config:
-            gptConfig += f" {key}={config[key]}"
+            if key == "model":
+                model = config[key]
+                continue
+            else:
+                gptConfig += f" {key}={config[key]}"
 
         return f"{{{{gen 'res'{gptConfig}}}}}"
 
     # set the default language model used to execute guidance programs
-    guidance.llm = guidance.llms.OpenAI(model="gpt-3.5-turbo")
+
     ask = None
     tmpAsk = None
     res = None
     output = ""
     gptOption = gptConfig()
+    guidance.llm = guidance.llms.OpenAI(model=model)
 
     def parse(data):
         if data.get("flag") is None:
@@ -122,6 +129,14 @@ def main():
                 res = None
                 with open("log.txt", mode="w") as f:
                     f.write("")
+                continue
+            elif ask == "load_config":
+                gptOption = gptConfig()
+                guidance.llm = guidance.llms.OpenAI(model=model)
+                continue
+            elif ask == "show_config":
+                print(model)
+                print(gptOption)
                 continue
             tmp = list(map(parse, data))
             pronpt = "".join(list(map(create_pronpt, tmp)))

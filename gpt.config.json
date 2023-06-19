@@ -1,4 +1,5 @@
 {
+    "model": "gpt-3.5-turbo-16k",
     "n": 1,
     "temperature": 1,
     "max_tokens": 2000
