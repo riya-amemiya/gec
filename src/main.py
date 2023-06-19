@@ -79,10 +79,10 @@ def main():
                 tmpData = list(map(parse, tmpData))
                 tmpPronpt = pronpt
                 tmpPronpt = "".join(list(map(create_pronpt, tmpData)))
-                if os.path.exists("save") == False:
+                if os.path.exists("save") is False:
                     os.mkdir("save")
                 id = input("save id:")
-                if os.path.exists(f"save/{id}") == False:
+                if os.path.exists(f"save/{id}") is False:
                     os.mkdir(f"save/{id}")
                 else:
                     print("already exists")
