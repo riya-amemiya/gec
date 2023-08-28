@@ -1,6 +1,6 @@
 {
     "model": "gpt-3.5-turbo-16k",
-    "n": 10,
+    "n": 1,
     "temperature": 1,
     "max_tokens": 2000
 }
